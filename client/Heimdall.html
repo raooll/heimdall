@@ -1,0 +1,126 @@
+<head>
+  <title>Heimdall</title>
+</head>
+
+
+<body>
+{{#if currentUser}}
+    {{> homePage}}
+{{else}}
+    {{> loginBox}}
+{{/if}}
+</body>
+
+<template name="loginBox">
+
+    <div id="wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <h1>Heimdall</h1>
+                    <h2 class="subtitle">He is the all-seeing and all-hearing guardian sentry of Asgard</h2>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-3">
+                    <button id="facebook-login" class="btn btn-default"> Login with Facebook</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-3">
+                    <p class="copyright">Copyright &copy; 2014 - <a href="https://twitter.com/raooll">@raooll</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="mapswrapper">
+
+    </div>
+
+
+    <script>
+        var map = new Datamap({
+            element: document.getElementById('mapswrapper'),
+            geographyConfig: {
+                highlightOnHover: true,
+                popupOnHover: false
+            }
+
+        });
+    </script>
+</template>
+<template name="homePage">
+
+   <div class="row">
+       <div  id="header" class="navbar-fixed-top">
+
+           <div class="col-lg-1" id="topSpace">
+
+           </div>
+           <div class="col-lg-1">
+               <img src="https://graph.facebook.com/{{currentUser.profile.fb_id}}/picture/?type=large" class="img-responsive img-circle" alt="profile image" style="height: 70px;width: 90px">
+           </div>
+           <div class="col-lg-1">
+               I'm in
+           </div>
+           <div class="col-lg-4" id="timezonepicker">
+               {{> timezonePicker class="form-control timezonepicker" selected=currentUser.profile.timezone }}
+           </div>
+           <div class="col-lg-2 pull-right aligncenter">
+               <div class="row">
+               {{ currentUser.profile.name}}
+               </div>
+               <div class="row">
+               <button id="logout" class="btn btn-default">Logout</button>
+               </div>
+           </div>
+       </div>
+
+   </div>
+
+    <div class="row " id="mainContent" style="padding-top: 150px">
+        <div class="col-lg-3"></div>
+
+        <div class="col-lg-6 aligncenter">
+            {{#each timezones}}
+            <div class="row">
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">
+                        <div class="row">
+                        <div class="col-lg-3">
+                            {{.}}
+                        </div>
+                        <div class="col-lg-9">
+                            {{ currentTime .}}
+                        </div>
+                        </div>
+                    </div>
+                    <!-- List group -->
+                    <ul class="list-group">
+                        {{#each userList .}}
+                        <li class="list-group-item">
+                            <div class="row">
+                            <div class="col-lg-1"></div>
+                            <div class="col-lg-2">
+                                <img src="https://graph.facebook.com/{{profile.fb_id}}/picture/?type=small" class="img-responsive img-circle" alt="profile image" style="height: 50px; width: 50px">
+                            </div>
+                            <div class="col-lg-8">
+                                {{profile.name}}
+                            </div>
+                            </div>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+
+        <div class="col-lg-3"></div>
+    </div>
+
+
+</template>
